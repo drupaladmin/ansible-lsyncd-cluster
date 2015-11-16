@@ -12,7 +12,7 @@
     key: "{{ lookup('file', 'lsyncd.pub') }}"
     user: root
     
-- name: Create log path
+- name: Create lsync paths
   file:
     dest: "{{ item }}"
     state: directory
