@@ -17,7 +17,7 @@ Role Variables
   - lsyncd_path: /data
     - The folder you want to keep in sync
 
-  - lsyncd_master_node: -1a-
+  - lsyncd_master_node: nfs_1
     - This is a part of, or the complete hostname that you want to assing as the "master" lsyncd
     
   - play_hosts
