@@ -12,4 +12,4 @@
   service:
     name: lsyncd
     state: restarted
-  when: ansible_hostname.find('{{ lsyncd_master_node }}') != -1
+  when: ansible_hostname == '{{ lsyncd_master_node }}')
