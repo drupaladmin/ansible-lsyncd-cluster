@@ -31,11 +31,6 @@
   file:
     dest: "{{ lsyncd_path }}"
     state: directory
-    
-- name: Create log path
-  file:
-    dest: /var/log/lsyncd
-    state: directory
   
 # Currently I use the root user to sync and use a different role to setup sshd to make sure root is only allowed from a certain group of ip's and only via a key. Perhaps I should make this configurable in the future, but lsync runs with root privileges anyway.
 - name: Place an ssh config for the root user
