@@ -1,17 +1,41 @@
 ---
 # tasks file for ansible-lsyncd-cluster
+# Yes yes, took me longer than it should have taken Michael ;-)
 
 - name: Install lsyncd
-  yum:
+  apt:
     name: lsyncd
     state: installed
+    
+- name: Places the public key
+  authorized_key:
+    key: "{{ lookup('file', 'lsyncd.pub') }}"
+    user: root
+    
+- name: Create log path
+  file:
+    dest: "{{ item }}"
+    state: directory
+  with_items:
+    - /etc/lsyncd/
+    - /var/log/lsyncd
 
 - name: Place lsync config
   template:
     src: lsyncd.conf.j2
-    dest: /etc/lsyncd.conf
+    dest: /etc/lsyncd/lsyncd.conf.lua
     backup: yes
   notify: restart lsyncd
+  
+- name: Create sync path
+  file:
+    dest: "{{ lsyncd_path }}"
+    state: directory
+    
+- name: Create log path
+  file:
+    dest: /var/log/lsyncd
+    state: directory
   
 # Currently I use the root user to sync and use a different role to setup sshd to make sure root is only allowed from a certain group of ip's and only via a key. Perhaps I should make this configurable in the future, but lsync runs with root privileges anyway.
 - name: Place an ssh config for the root user
@@ -31,13 +55,7 @@
     dest: /root/.ssh/lsyncd.key
     owner: root
     group: root
-    mode: 0600
-    
-- name: Places the public key
-  authorized_key:
-    key: "{{ lookup('file', 'lsyncd.pub') }}"
-    user: root
-    
+    mode: 0600    
     
 - name: Adjust the maximum amount of inotify watches. If needed
   lineinfile:
@@ -54,12 +72,12 @@
     name: lsyncd
     enabled: no
     state: stopped
-  when: ansible_hostname.find('{{ lsyncd_master_node }}') == -1
+  when: ansible_hostname != '{{ lsyncd_master_node }}'
   
 - name: Activate the "master node"
   service:
     name: lsyncd
     enabled: yes
     state: started
-  when: ansible_hostname.find('{{ lsyncd_master_node }}') != -1
+  when: ansible_hostname == '{{ lsyncd_master_node }}'
   
