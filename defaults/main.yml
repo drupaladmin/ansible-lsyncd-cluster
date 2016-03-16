@@ -9,3 +9,5 @@ lsyncd_path: /data
 
 # This is a part of, or the complete hostname that you want to assing as the "master" lsyncd
 lsyncd_master_node: nfs_1
+
+lsyncd_exclude: ".bak",".log"
