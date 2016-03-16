@@ -25,6 +25,9 @@ targetlist = {
 for _, server in ipairs(targetlist) do
   sync{ default.rsync,
     delay=20,
+  {% if lsyncd_exclude is defined %}
+    exclude={{ lsyncd_exclude }},
+  {% endif %}
     source="{{ lsyncd_path }}/",
     target=server
   }
