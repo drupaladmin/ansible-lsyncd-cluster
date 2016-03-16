@@ -46,7 +46,7 @@
 # Create your own key! Don't use the supplied one obviously!
 - name: Places a private key for syncing purposes
   copy:
-    src: files/"{{ lsyncd_private_key }}"
+    src: files/{{ lsyncd_private_key }}
     dest: /root/.ssh/lsyncd.key
     owner: root
     group: root
