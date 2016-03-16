@@ -9,7 +9,7 @@
     
 - name: Places the public key
   authorized_key:
-    key: "{{ lookup('file', '{{ lsyncd_public_key }}' }}) }}"
+    key: "{{ lookup('file', '{{ lsyncd_public_key }}' ) }}"
     user: root
     
 - name: Create lsync paths
