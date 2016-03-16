@@ -10,5 +10,9 @@ lsyncd_path: /data
 # This is a part of, or the complete hostname that you want to assing as the "master" lsyncd
 lsyncd_master_node: nfs_1
 
+lsyncd_public_key: lsyncd.pub
+lsyncd_private_key: lsyncd.key
+
 # This variable define exclude from syncing
 # lsyncd_exclude: {'.bak','.log'}
+

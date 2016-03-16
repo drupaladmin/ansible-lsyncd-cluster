@@ -9,7 +9,7 @@
     
 - name: Places the public key
   authorized_key:
-    key: "{{ lookup('file', 'lsyncd.pub') }}"
+    key: "{{ lookup('file', '{{ lsyncd_public_key }}' }}) }}"
     user: root
     
 - name: Create lsync paths
@@ -46,7 +46,7 @@
 # Create your own key! Don't use the supplied one obviously!
 - name: Places a private key for syncing purposes
   copy:
-    src: lsyncd.key
+    src: {{ lsyncd_private_key }}
     dest: /root/.ssh/lsyncd.key
     owner: root
     group: root

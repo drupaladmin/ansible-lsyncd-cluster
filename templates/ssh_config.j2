@@ -4,7 +4,7 @@
 # lsyncd {{ hostvars[host]['ansible_hostname'] }}
 Host {{ hostvars[host]['ansible_hostname'] }}
 	User root
-	IdentityFile ~/.ssh/lsyncd.key
+	IdentityFile ~/.ssh/{{ lsyncd_private_key }}
  	StrictHostKeyChecking no
  	UserKnownHostsFile=/dev/null
 
