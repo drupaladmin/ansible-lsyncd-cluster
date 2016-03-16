@@ -8,9 +8,9 @@
     state: installed
     
 - name: Places the public key
-  authorized_key: user=root key="{{ item }}"
-  with_file:
-    - "{{ lsyncd_public_key }}"
+  authorized_key:
+    key: "{{ lookup('file', "{{ lsyncd_public_key }}" ) }}"
+    user: root
 
 - name: Create lsync paths
   file:
