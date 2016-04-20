@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  author: Mark Maas
+  author: Roman Agabekov
   description: Set's up the lsyncd (Synching Daemon) across all the hosts in the current play.
   company: None
   license: GPLv3
@@ -14,4 +14,3 @@ galaxy_info:
   - clustering
   - system
 dependencies: []
-  
