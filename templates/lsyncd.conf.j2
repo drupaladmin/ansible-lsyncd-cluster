@@ -15,9 +15,14 @@ settings {
 -- List of targets where we want our data to be copied to
 targetlist = {
 {% for host in play_hosts|sort if hostvars[host]['ansible_hostname'] != ansible_hostname %}
-  "{{ hostvars[host]['ansible_hostname'] }}:{{ lsyncd_path }}/"{% if not loop.last %}, {% elif lsyncd_additional_hosts is defined %},
-  {% endif %}
+  "{{ hostvars[host]['ansible_hostname'] }}:{{ lsyncd_path }}/"{% if not loop.last %},
+{% elif lsyncd_additional_hosts is defined %},
+{% endif %}
 {% endfor %}
+{% for host in lsyncd_additional_hosts %}
+  "{{ host }}:{{ lsyncd_path }}/"{% if not loop.last %},{% endif %}
+{% endfor %}
+}
 
 {% for host in lsyncd_additional_hosts %}
   "{{ host }}:{{ lsyncd_path }}/"{% if not loop.last %},{% endif %}
