@@ -15,4 +15,3 @@ lsyncd_private_key: lsyncd.key
 
 # This variable define exclude from syncing
 # lsyncd_exclude: '.bak','.log'
-
