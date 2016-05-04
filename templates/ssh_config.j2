@@ -1,10 +1,20 @@
 # {{ ansible_managed }}
- 	
-{% for host in play_hosts|sort if hostvars[host]['ansible_hostname'] != ansible_hostname %}
-# lsyncd {{ hostvars[host]['ansible_hostname'] }}
-Host {{ hostvars[host]['ansible_hostname'] }}
+
+{% for host in play_hosts|sort if host != ansible_hostname %}
+# lsyncd {{ host }}
+Host {{ host }}
 	User root
-	IdentityFile ~/.ssh/{{ lsyncd_private_key }}
+	IdentityFile ~/.ssh/lsyncd.key
+ 	StrictHostKeyChecking no
+ 	UserKnownHostsFile=/dev/null
+
+{% endfor %}
+
+{% for host in lsyncd_additional_hosts %}
+# lsyncd additional host {{ host }}
+Host {{ host }}
+	User root
+	IdentityFile ~/.ssh/lsyncd.key
  	StrictHostKeyChecking no
  	UserKnownHostsFile=/dev/null
 

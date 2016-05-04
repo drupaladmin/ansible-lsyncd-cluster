@@ -14,16 +14,11 @@ settings {
 
 -- List of targets where we want our data to be copied to
 targetlist = {
-{% for host in play_hosts|sort if hostvars[host]['ansible_hostname'] != ansible_hostname %}
-  "{{ hostvars[host]['ansible_hostname'] }}:{{ lsyncd_path }}/"{% if not loop.last %},
+{% for host in play_hosts|sort if host != inventory_hostname %}
+  "{{ host }}:{{ lsyncd_path }}/"{% if not loop.last %},
 {% elif lsyncd_additional_hosts is defined %},
 {% endif %}
 {% endfor %}
-{% for host in lsyncd_additional_hosts %}
-  "{{ host }}:{{ lsyncd_path }}/"{% if not loop.last %},{% endif %}
-{% endfor %}
-}
-
 {% for host in lsyncd_additional_hosts %}
   "{{ host }}:{{ lsyncd_path }}/"{% if not loop.last %},{% endif %}
 {% endfor %}
@@ -37,6 +32,12 @@ for _, server in ipairs(targetlist) do
     exclude={ {{ lsyncd_exclude }} },
   {% endif %}
     source="{{ lsyncd_path }}/",
-    target=server
+    target=server,
+    rsync = {
+      archive = true,
+      perms = true,
+      owner = true,
+      _extra = {"-a"}
+    }
   }
 end
